@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<title>Web Sitesi 101 — Canlıda Nasıl Ayakta Durur?</title>
+<style>
+  @page { size: A4; margin: 15mm 14mm 15mm 14mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    color: #17261f;
+    background: #f6f1e7;
+    font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 10.2pt;
+    line-height: 1.5;
+  }
+  h1, h2, h3 { margin: 0; }
+  h1, h2 { font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif; font-weight: 600; letter-spacing: -0.02em; }
+  h1 { font-size: 30pt; line-height: 1.02; }
+  h2 { font-size: 20pt; line-height: 1.08; margin-bottom: 3mm; }
+  h3 { font-size: 11.5pt; margin: 5mm 0 2mm; color: #0f3d2e; }
+  p { margin: 0 0 3mm; }
+  ul, ol { margin: 0 0 3mm 5mm; padding: 0; }
+  li { margin-bottom: 1.6mm; }
+  small { font-size: 8.5pt; color: #6d786f; }
+  .page {
+    position: relative;
+    min-height: 264mm;
+    padding: 0 0 2mm;
+    break-after: page;
+    page-break-after: always;
+  }
+  .page:last-child { break-after: auto; page-break-after: auto; }
+  .eyebrow {
+    display: inline-block;
+    color: #b8862f;
+    font-size: 7.5pt;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+  }
+  .lead { font-size: 11.2pt; color: #425249; max-width: 165mm; }
+  .muted { color: #6d786f; }
+  .green { color: #0f3d2e; }
+  .gold { color: #b8862f; }
+  .cover {
+    min-height: 264mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10mm 8mm 2mm;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(184, 134, 47, 0.18), transparent 80mm),
+      linear-gradient(160deg, #0f3d2e, #123f30 60%, #0b3024);
+    color: #fbf7ed;
+    border-radius: 3mm;
+  }
+  .cover .brand {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-size: 17pt;
+  }
+  .cover .brand-mark {
+    width: 24mm;
+    height: 13mm;
+    color: #fbf7ed;
+  }
+  .cover h1 { color: #fbf7ed; max-width: 150mm; margin-top: 18mm; }
+  .cover .lead { color: rgba(251, 247, 237, 0.72); }
+  .cover .cover-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+    margin-top: 12mm;
+  }
+  .cover .cover-meta div {
+    border-top: 1px solid rgba(184, 134, 47, 0.45);
+    padding-top: 2.5mm;
+  }
+  .cover .cover-meta strong { display: block; font-size: 9pt; color: #e6c77d; }
+  .cover .cover-meta span { font-size: 8.5pt; color: rgba(251, 247, 237, 0.65); }
+  .cover-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 4mm;
+    color: rgba(251, 247, 237, 0.45);
+    font-size: 7.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(251, 247, 237, 0.15);
+    padding-top: 3mm;
+  }
+  .toc { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 8mm; margin-top: 4mm; }
+  .toc-item { display: flex; gap: 3mm; align-items: baseline; border-bottom: 1px solid #e1d9c9; padding: 2.5mm 0; }
+  .toc-item b { color: #b8862f; font-size: 9pt; min-width: 6mm; }
+  .toc-item span { font-size: 9.5pt; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .card {
+    border: 1px solid #e1d9c9;
+    border-radius: 3mm;
+    padding: 4mm 4.5mm;
+    background: rgba(255, 253, 248, 0.78);
+    break-inside: avoid;
+  }
+  .card h3 { margin-top: 0; }
+  .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+  .callout {
+    border-left: 3px solid #b8862f;
+    background: #f3e8cf;
+    padding: 3.5mm 4.5mm;
+    border-radius: 0 2mm 2mm 0;
+    margin: 4mm 0;
+    break-inside: avoid;
+  }
+  .callout strong { color: #0f3d2e; }
+  .dark {
+    background: #0f3d2e;
+    color: #fbf7ed;
+    border-radius: 3mm;
+    padding: 4.5mm;
+  }
+  .dark h3 { color: #e6c77d; }
+  .dark p, .dark li { color: rgba(251, 247, 237, 0.78); }
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 4mm; font-size: 8.8pt; }
+  th, td { text-align: left; padding: 2.2mm 2.5mm; border-bottom: 1px solid #e1d9c9; vertical-align: top; }
+  th { background: #eee7d9; color: #0f3d2e; font-size: 7.8pt; text-transform: uppercase; letter-spacing: 0.06em; }
+  .diagram { width: 100%; margin: 4mm 0; break-inside: avoid; }
+  .diagram text { font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif; }
+  .legend { display: flex; gap: 4mm; flex-wrap: wrap; font-size: 8pt; color: #6d786f; margin-top: 1mm; }
+  .legend span::before { content: ""; display: inline-block; width: 3mm; height: 3mm; border-radius: 50%; margin-right: 1.2mm; vertical-align: -0.4mm; background: #0f3d2e; }
+  .legend .gold-dot::before { background: #b8862f; }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 4mm;
+    color: #9aa49c;
+    font-size: 7pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-top: 1px solid #e1d9c9;
+    padding-top: 2mm;
+  }
+  .num { color: #b8862f; font-weight: 800; }
+  .step { display: flex; gap: 3mm; margin-bottom: 2.5mm; }
+  .step > b { flex: 0 0 7mm; height: 7mm; border-radius: 50%; background: #0f3d2e; color: #fff; display: grid; place-items: center; font-size: 8pt; }
+  .step div { flex: 1; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 8.5pt; background: #eee7d9; padding: 0.4mm 1.2mm; border-radius: 1mm; }
+  .checklist li { list-style: none; margin-left: 0; }
+  .checklist li::before { content: "☐"; color: #b8862f; margin-right: 2mm; font-size: 11pt; }
+  .quote { font-family: "Iowan Old Style", Georgia, serif; font-size: 14pt; line-height: 1.35; color: #0f3d2e; }
+  .kv { display: grid; grid-template-columns: 36mm 1fr; gap: 2mm 3mm; font-size: 9pt; }
+  .kv dt { color: #6d786f; font-weight: 700; }
+  .kv dd { margin: 0; }
+  .page-title { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; border-bottom: 1px solid #d9cfbd; padding-bottom: 2.5mm; margin-bottom: 5mm; }
+  .page-title span { color: #9aa49c; font-size: 7.5pt; letter-spacing: 0.12em; text-transform: uppercase; }
+  .small { font-size: 8.5pt; }
+  .tight p { margin-bottom: 2mm; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="page cover">
+  <div>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 112 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <g transform="translate(0 0)">
+            <path d="M4 18c0-5 3-8 7-8 3 0 5 2 6 5l2-7 2-1 2 3-2 2-1 4v7h-2v-5H9v5H7v-5H5v-1z"/>
+            <path d="M8 22v9M10.5 22v9M17 22v9M19.5 22v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M4 18c-1.5 1.5-1.5 4-.5 5.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </g>
+          <g transform="translate(40 0)">
+            <path d="M4 18c0-5 3-8 7-8 3 0 5 2 6 5l2-7 2-1 2 3-2 2-1 4v7h-2v-5H9v5H7v-5H5v-1z"/>
+            <path d="M8 22v9M10.5 22v9M17 22v9M19.5 22v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M4 18c-1.5 1.5-1.5 4-.5 5.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </g>
+          <g transform="translate(80 0)">
+            <path d="M4 18c0-5 3-8 7-8 3 0 5 2 6 5l2-7 2-1 2 3-2 2-1 4v7h-2v-5H9v5H7v-5H5v-1z"/>
+            <path d="M8 22v9M10.5 22v9M17 22v9M19.5 22v9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M4 18c-1.5 1.5-1.5 4-.5 5.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </g>
+        </g>
+        <g stroke="#c79a3b" stroke-width="1.5" stroke-linecap="round">
+          <path d="M23 16Q33 20 43 16"/>
+          <path d="M63 16Q73 20 83 16"/>
+        </g>
+      </svg>
+      <strong>İbnüssebil</strong>
+    </div>
+    <h1>Bir web sitesi canlıda nasıl ayakta durur?</h1>
+    <p class="lead">
+      Domain’den DNS’e, sunucudan veritabanına, HTTPS’ten yedeklemeye kadar
+      bir sitenin canlıda kalma mantığı. İbnüssebil örneğiyle sade bir 101 dersi.
+    </p>
+    <div class="cover-meta">
+      <div><strong>Adres</strong><span>Domain, DNS, IP, port</span></div>
+      <div><strong>Ulaşım</strong><span>TCP, TLS, HTTPS, reverse proxy</span></div>
+      <div><strong>Uygulama</strong><span>Sunucu, process, container, healthcheck</span></div>
+      <div><strong>Veri</strong><span>SQLite, volume, yedek, restore</span></div>
+    </div>
+  </div>
+  <div class="cover-foot">
+    <span>Teknik 101</span>
+    <span>İbnüssebil · Sevkiyat ve güzergâh</span>
+    <span>2026</span>
+  </div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page">
+  <div class="page-title"><h2>Büyük resim: dört katman</h2><span>01 / 09</span></div>
+  <p class="lead">Bir site “tek bir şey” değildir. Dört katmanın birlikte çalışmasıdır. Biri durursa site durur.</p>
+
+  <div class="three" style="margin-top:5mm">
+    <div class="card"><h3>1. Adres</h3><p><b>Domain + DNS</b></p><p>Kullanıcı “ibnussebil.com” yazar. DNS, bu ismi sunucunun IP adresine çevirir.</p><small>Bozulursa: site bulunamaz.</small></div>
+    <div class="card"><h3>2. Ulaşım</h3><p><b>IP + port + TLS</b></p><p>Tarayıcı sunucuya 443 portundan bağlanır. Sertifika ile şifreli tünel kurulur.</p><small>Bozulursa: güvenlik uyarısı / bağlantı hatası.</small></div>
+    <div class="card"><h3>3. Uygulama</h3><p><b>Sunucu + app</b></p><p>Caddy isteği karşılar, FastAPI’ye iletir. FastAPI işi yapar, cevabı döner.</p><small>Bozulursa: 502 / 500.</small></div>
+  </div>
+
+  <div class="three" style="margin-top:4mm">
+    <div class="card"><h3>4. Veri</h3><p><b>DB + disk</b></p><p>SQLite dosyası, kullanıcılar, menziller, güzergâhlar. Diskte kalıcı olmalı.</p><small>Bozulursa: veri kaybı.</small></div>
+    <div class="card"><h3>Yardımcılar</h3><p><b>Yedek, log, izleme</b></p><p>Site ayakta kalsa bile veri kaybını ve sessiz arızaları yakalarsın.</p><small>Bozulursa: sorunu geç fark edersin.</small></div>
+    <div class="card"><h3>İnsan</h3><p><b>Sen</b></p><p>Güncelleme, sertifika, yedek, şifre ve erişim yönetimi.</p><small>Bozulursa: hiçbiri anlamlı olmaz.</small></div>
+  </div>
+
+  <svg class="diagram" viewBox="0 0 780 240" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0f3d2e"/></marker>
+    </defs>
+    <rect x="10" y="70" width="120" height="62" rx="8" fill="#fffdf8" stroke="#d9cfbd"/>
+    <text x="70" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#17261f">Tarayıcı</text>
+    <text x="70" y="112" text-anchor="middle" font-size="8.5" fill="#6d786f">Chrome / Safari</text>
+    <line x1="130" y1="101" x2="190" y2="101" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="192" y="70" width="120" height="62" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="252" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#17261f">DNS</text>
+    <text x="252" y="112" text-anchor="middle" font-size="8.5" fill="#6d786f">isim → IP</text>
+    <line x1="312" y1="101" x2="372" y2="101" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="374" y="70" width="140" height="62" rx="8" fill="#fffdf8" stroke="#d9cfbd"/>
+    <text x="444" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#17261f">Caddy</text>
+    <text x="444" y="112" text-anchor="middle" font-size="8.5" fill="#6d786f">443 · TLS · proxy</text>
+    <line x1="514" y1="101" x2="574" y2="101" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="576" y="55" width="150" height="90" rx="8" fill="#0f3d2e"/>
+    <text x="651" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#fbf7ed">FastAPI</text>
+    <text x="651" y="98" text-anchor="middle" font-size="8.5" fill="rgba(251,247,237,.7)">iş mantığı</text>
+    <text x="651" y="113" text-anchor="middle" font-size="8.5" fill="rgba(251,247,237,.7)">OR-Tools</text>
+    <text x="651" y="128" text-anchor="middle" font-size="8.5" fill="rgba(251,247,237,.7)">SQLite</text>
+    <path d="M651 146 C651 205 312 205 252 150" stroke="#b8862f" stroke-width="1.5" fill="none" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+    <text x="460" y="218" text-anchor="middle" font-size="8.5" fill="#6d786f">cevap: HTML / JSON / dosya</text>
+    <rect x="10" y="150" width="150" height="48" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="85" y="170" text-anchor="middle" font-size="9" font-weight="700" fill="#17261f">Kalıcı disk</text>
+    <text x="85" y="185" text-anchor="middle" font-size="8" fill="#6d786f">data/ibnussebil.db</text>
+  </svg>
+
+  <div class="callout"><strong>Kural:</strong> “Site çalışıyor” demek, bu dört katmanın hepsi aynı anda sağlıklı demektir. En zayıf katman sitenin gerçek dayanıklılığını belirler.</div>
+
+  <div class="footer"><span>Web 101 · Büyük resim</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page">
+  <div class="page-title"><h2>Bir isteğin yolculuğu</h2><span>02 / 09</span></div>
+  <p class="lead">Kullanıcı adres çubuğuna <span class="mono">ibnussebil.com</span> yazdığında saniyeler içinde olanlar:</p>
+
+  <div class="two" style="margin-top:4mm">
+    <div>
+      <div class="step"><b>1</b><div><strong>DNS sorgusu.</strong> Tarayıcı, “ibnussebil.com hangi IP?” diye sorar. Cevap genelde bir <b>A kaydı</b>dır: <span class="mono">203.0.113.10</span>.</div></div>
+      <div class="step"><b>2</b><div><strong>TCP bağlantısı.</strong> Tarayıcı sunucunun <b>443</b> portuna bağlanır. 443 = HTTPS’in kapısı.</div></div>
+      <div class="step"><b>3</b><div><strong>TLS el sıkışması.</strong> Sunucu sertifikasını gösterir. Tarayıcı sertifikayı doğrular; şifreli tünel kurulur.</div></div>
+      <div class="step"><b>4</b><div><strong>HTTP isteği.</strong> Tarayıcı <span class="mono">GET /</span> veya <span class="mono">GET /api/health</span> gönderir.</div></div>
+      <div class="step"><b>5</b><div><strong>Reverse proxy.</strong> Caddy isteği karşılar. Statik dosya ise doğrudan döner; API ise FastAPI’ye iletir.</div></div>
+    </div>
+    <div>
+      <div class="step"><b>6</b><div><strong>Uygulama.</strong> FastAPI route’u çalışır. Gerekirse JWT doğrular, SQLite’a bakar, OR-Tools’u çalıştırır.</div></div>
+      <div class="step"><b>7</b><div><strong>Veri.</strong> SQLite dosyasından okur/yazar. Dosya <span class="mono">/data/ibnussebil.db</span> üzerindedir.</div></div>
+      <div class="step"><b>8</b><div><strong>Cevap.</strong> JSON veya HTML üretilir. Caddy cevabı tarayıcıya geri gönderir.</div></div>
+      <div class="step"><b>9</b><div><strong>Tarayıcı.</strong> HTML’i çizer, JS/CSS’i yükler. React uygulaması API çağrılarını yapar.</div></div>
+      <div class="step"><b>10</b><div><strong>Tekrar.</strong> Her tıklama, her kaydetme aynı yoldan geçer.</div></div>
+    </div>
+  </div>
+
+  <svg class="diagram" viewBox="0 0 780 150" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="arrow2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#b8862f"/></marker></defs>
+    <rect x="8" y="45" width="92" height="52" rx="7" fill="#fffdf8" stroke="#d9cfbd"/><text x="54" y="68" text-anchor="middle" font-size="9" font-weight="700">Tarayıcı</text><text x="54" y="82" text-anchor="middle" font-size="7.5" fill="#6d786f">istek</text>
+    <line x1="100" y1="71" x2="138" y2="71" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow2)"/>
+    <rect x="140" y="45" width="92" height="52" rx="7" fill="#f3e8cf" stroke="#d9cfbd"/><text x="186" y="68" text-anchor="middle" font-size="9" font-weight="700">DNS</text><text x="186" y="82" text-anchor="middle" font-size="7.5" fill="#6d786f">IP</text>
+    <line x1="232" y1="71" x2="270" y2="71" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow2)"/>
+    <rect x="272" y="45" width="110" height="52" rx="7" fill="#fffdf8" stroke="#d9cfbd"/><text x="327" y="68" text-anchor="middle" font-size="9" font-weight="700">TCP + TLS</text><text x="327" y="82" text-anchor="middle" font-size="7.5" fill="#6d786f">443</text>
+    <line x1="382" y1="71" x2="420" y2="71" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow2)"/>
+    <rect x="422" y="45" width="100" height="52" rx="7" fill="#f3e8cf" stroke="#d9cfbd"/><text x="472" y="68" text-anchor="middle" font-size="9" font-weight="700">Caddy</text><text x="472" y="82" text-anchor="middle" font-size="7.5" fill="#6d786f">proxy</text>
+    <line x1="522" y1="71" x2="560" y2="71" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow2)"/>
+    <rect x="562" y="45" width="100" height="52" rx="7" fill="#0f3d2e"/><text x="612" y="68" text-anchor="middle" font-size="9" font-weight="700" fill="#fbf7ed">FastAPI</text><text x="612" y="82" text-anchor="middle" font-size="7.5" fill="rgba(251,247,237,.7)">iş</text>
+    <line x1="662" y1="71" x2="700" y2="71" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow2)"/>
+    <rect x="702" y="45" width="70" height="52" rx="7" fill="#fffdf8" stroke="#d9cfbd"/><text x="737" y="68" text-anchor="middle" font-size="9" font-weight="700">DB</text><text x="737" y="82" text-anchor="middle" font-size="7.5" fill="#6d786f">SQLite</text>
+  </svg>
+
+  <h3>DNS’te üç kavram</h3>
+  <table>
+    <tr><th>Kayıt</th><th>Ne yapar?</th><th>Örnek</th></tr>
+    <tr><td><b>A</b></td><td>Domain’i IPv4 adresine bağlar.</td><td><span class="mono">ibnussebil.com → 203.0.113.10</span></td></tr>
+    <tr><td><b>CNAME</b></td><td>Bir ismi başka bir isme yönlendirir.</td><td><span class="mono">www → ibnussebil.com</span></td></tr>
+    <tr><td><b>NS</b></td><td>DNS’i kimin yönettiğini söyler.</td><td><span class="mono">Cloudflare nameserver’ları</span></td></tr>
+  </table>
+  <p class="small"><b>TTL</b> = DNS cevabının ne kadar süre önbellekte kalacağı. Transfer/DNS değişiminde eski cevap bir süre daha görülebilir; buna “propagation” denir.</p>
+
+  <div class="callout"><strong>Altın kural:</strong> Domain’i bir yerden, DNS’i başka yerden yönetmek sorun değildir. Hatta taşınma sırasında kesinti olmaması için <b>DNS’i registrar’dan ayır</b>: Cloudflare DNS + Natro/başka registrar.</div>
+  <div class="footer"><span>Web 101 · İstek yolculuğu</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 4 -->
+<section class="page">
+  <div class="page-title"><h2>Sunucu, port, reverse proxy, container</h2><span>03 / 09</span></div>
+  <p class="lead">“Sunucu” sihirli bir kutu değil; 7/24 açık, internete bağlı bir bilgisayardır. VPS de bunun kiralanmış hali.</p>
+
+  <div class="two">
+    <div class="card">
+      <h3>IP ve port</h3>
+      <p><b>IP</b> = binanın adresi. <b>Port</b> = binadaki kapı numarası.</p>
+      <ul>
+        <li><b>22</b> → SSH (sunucuya yönetim girişi)</li>
+        <li><b>80</b> → HTTP (HTTPS’e yönlendirilir)</li>
+        <li><b>443</b> → HTTPS (asıl trafik)</li>
+        <li><b>8000</b> → uygulama (sadece içeride)</li>
+      </ul>
+      <p>Firewall sadece 22/80/443’ü açar. 8000 dışarıya açılmaz.</p>
+    </div>
+    <div class="card">
+      <h3>Neden reverse proxy?</h3>
+      <p><b>Caddy</b> kapıdaki resepsiyonist gibidir:</p>
+      <ul>
+        <li>TLS sertifikasını yönetir</li>
+        <li>HTTP’yi HTTPS’e yönlendirir</li>
+        <li>Statik dosyaları hızlıca döner</li>
+        <li>API isteklerini FastAPI’ye iletir</li>
+        <li>Sıkıştırma ve güvenlik başlıkları ekler</li>
+      </ul>
+      <p>Uygulama doğrudan 443’e bağlanmaz; iç ağda <span class="mono">app:8000</span> dinler.</p>
+    </div>
+  </div>
+
+  <svg class="diagram" viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="arrow3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0f3d2e"/></marker></defs>
+    <rect x="10" y="18" width="760" height="196" rx="10" fill="#fffdf8" stroke="#d9cfbd"/>
+    <text x="30" y="42" font-size="10" font-weight="800" fill="#0f3d2e">VPS · Ubuntu 24.04</text>
+    <rect x="30" y="60" width="170" height="120" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="115" y="86" text-anchor="middle" font-size="10" font-weight="700">Caddy</text>
+    <text x="115" y="102" text-anchor="middle" font-size="8" fill="#6d786f">80/443 · TLS</text>
+    <text x="115" y="118" text-anchor="middle" font-size="8" fill="#6d786f">reverse proxy</text>
+    <text x="115" y="134" text-anchor="middle" font-size="8" fill="#6d786f">/ → app:8000</text>
+    <line x1="200" y1="120" x2="270" y2="120" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow3)"/>
+    <rect x="272" y="60" width="220" height="120" rx="8" fill="#0f3d2e"/>
+    <text x="382" y="86" text-anchor="middle" font-size="10" font-weight="700" fill="#fbf7ed">app container</text>
+    <text x="382" y="102" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">Uvicorn + FastAPI</text>
+    <text x="382" y="118" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">OR-Tools</text>
+    <text x="382" y="134" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">React build (statik)</text>
+    <line x1="492" y1="120" x2="562" y2="120" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow3)"/>
+    <rect x="564" y="60" width="176" height="120" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="652" y="86" text-anchor="middle" font-size="10" font-weight="700">/data volume</text>
+    <text x="652" y="102" text-anchor="middle" font-size="8" fill="#6d786f">ibnussebil.db</text>
+    <text x="652" y="118" text-anchor="middle" font-size="8" fill="#6d786f">kalıcı disk</text>
+    <text x="652" y="134" text-anchor="middle" font-size="8" fill="#6d786f">backup kaynağı</text>
+    <text x="30" y="202" font-size="8" fill="#6d786f">Dışarıdan yalnızca 80/443 görünür. Uygulama portu 8000 iç ağda kalır.</text>
+  </svg>
+
+  <h3>Container mantığı</h3>
+  <table>
+    <tr><th>Kavram</th><th>Anlamı</th><th>İbnüssebil’de</th></tr>
+    <tr><td><b>Image</b></td><td>Uygulamanın paketlenmiş hali: kod + bağımlılıklar.</td><td><span class="mono">ibnussebil:prod</span></td></tr>
+    <tr><td><b>Container</b></td><td>Image’ın çalışan örneği.</td><td><span class="mono">docker compose up</span></td></tr>
+    <tr><td><b>Volume</b></td><td>Container silinse de kalan kalıcı disk.</td><td><span class="mono">./data:/data</span></td></tr>
+    <tr><td><b>Compose</b></td><td>Birden fazla container’ı tek dosyada tanımlama.</td><td><span class="mono">app + caddy</span></td></tr>
+  </table>
+
+  <div class="callout"><strong>Neden Docker?</strong> “Benim makinemde çalışıyordu” sorununu azaltır. Sunucuda da aynı Python, aynı kütüphane, aynı OR-Tools sürümü çalışır. Kurulum adımları tekrar edilebilir olur.</div>
+  <div class="footer"><span>Web 101 · Sunucu ve proxy</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 5 -->
+<section class="page">
+  <div class="page-title"><h2>Veri katmanı: kalıcılık ve yedek</h2><span>04 / 09</span></div>
+  <p class="lead">Siteyi ayakta tutmak kolay; veriyi kaybetmemek zordur. Çoğu “ölü” proje aslında veri kaybıyla ölür.</p>
+
+  <div class="two">
+    <div class="card">
+      <h3>Stateful vs stateless</h3>
+      <p><b>Stateless</b> servis: her istek kendi içinde. Container’ı silip yenisini başlatabilirsin.</p>
+      <p><b>Stateful</b> veri: kullanıcılar, menziller, güzergâhlar. Bunlar diskte kalmalı.</p>
+      <p>İbnüssebil’de state <span class="mono">/data/ibnussebil.db</span> içinde. Bu yüzden volume şart.</p>
+    </div>
+    <div class="card">
+      <h3>SQLite mı Postgres mi?</h3>
+      <p><b>SQLite:</b> tek dosya, kurulum yok, tek yazıcı. Demo ve ilk pilot için yeterli.</p>
+      <p><b>Postgres:</b> eşzamanlı yazma, yönetilen yedek, ölçek. Çok kervan/tenant olunca geçilir.</p>
+      <p>Geçiş korkutucu değil: SQLAlchemy sayesinde çoğu şey aynı kalır; bağlantı ve migration değişir.</p>
+    </div>
+  </div>
+
+  <svg class="diagram" viewBox="0 0 780 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="arrow4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#b8862f"/></marker></defs>
+    <rect x="20" y="50" width="160" height="80" rx="8" fill="#0f3d2e"/>
+    <text x="100" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="#fbf7ed">app container</text>
+    <text x="100" y="94" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">yaz / oku</text>
+    <text x="100" y="110" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">transaction</text>
+    <line x1="180" y1="90" x2="250" y2="90" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow4)"/>
+    <rect x="252" y="50" width="180" height="80" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="342" y="78" text-anchor="middle" font-size="10" font-weight="700">/data/ibnussebil.db</text>
+    <text x="342" y="94" text-anchor="middle" font-size="8" fill="#6d786f">kalıcı volume</text>
+    <text x="342" y="110" text-anchor="middle" font-size="8" fill="#6d786f">SQLite dosyası</text>
+    <line x1="432" y1="90" x2="502" y2="90" stroke="#b8862f" stroke-width="1.5" marker-end="url(#arrow4)"/>
+    <rect x="504" y="50" width="250" height="80" rx="8" fill="#fffdf8" stroke="#d9cfbd"/>
+    <text x="629" y="78" text-anchor="middle" font-size="10" font-weight="700">backups/</text>
+    <text x="629" y="94" text-anchor="middle" font-size="8" fill="#6d786f">günlük kopya</text>
+    <text x="629" y="110" text-anchor="middle" font-size="8" fill="#6d786f">+ sunucu dışı kopya</text>
+    <text x="20" y="175" font-size="8" fill="#6d786f">Yedek = aynı dosyanın başka yerde, farklı zamanda, açılabilir kopyası. “Sunucuda duruyor” yedek değildir.</text>
+  </svg>
+
+  <h3>3-2-1 yedek kuralı</h3>
+  <ul>
+    <li><b>3</b> kopya: canlı + yerel yedek + uzak yedek.</li>
+    <li><b>2</b> farklı ortam: sunucu ve Cloudflare R2 / S3 / başka makine.</li>
+    <li><b>1</b> kopya sunucu dışında.</li>
+  </ul>
+  <p><b>Restore denenmemiş yedek, yedek değildir.</b> Ayda bir yedeği başka bir klasöre açıp uygulamayı çalıştırmayı dene.</p>
+
+  <div class="callout"><strong>RTO / RPO:</strong> RTO = “ne kadar sürede tekrar ayakta olmalıyım?” RPO = “en fazla ne kadar veri kaybına tahammülüm var?” Günlük yedek → RPO 24 saat. Saatlik yedek → RPO 1 saat. İş ihtiyacına göre seç.</div>
+
+  <h3>İbnüssebil’de yedek</h3>
+  <p><span class="mono">scripts/backup.sh</span> SQLite’ın <span class="mono">.backup</span> API’sini kullanır; dosyayı kopyalamak yerine tutarlı bir anlık görüntü alır. Cron’a eklenir, eski yedekler temizlenir. Sonra R2/S3/scp ile sunucu dışına taşınır.</p>
+  <div class="footer"><span>Web 101 · Veri ve yedek</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 6 -->
+<section class="page">
+  <div class="page-title"><h2>Deploy: koddan canlıya</h2><span>05 / 09</span></div>
+  <p class="lead">Deploy, “dosyaları sunucuya atmak” değil; tekrar edilebilir bir paketi güvenli şekilde çalıştırmaktır.</p>
+
+  <div class="step"><b>1</b><div><strong>Local’de çalıştır.</strong> Testler + build. <span class="mono">pytest</span>, <span class="mono">tsc</span>, <span class="mono">vite build</span>.</div></div>
+  <div class="step"><b>2</b><div><strong>Image üret.</strong> <span class="mono">docker build -t ibnussebil:prod .</span> Web build + API + bağımlılıklar tek pakete girer.</div></div>
+  <div class="step"><b>3</b><div><strong>Sunucuya taşı.</strong> Git pull veya image registry. Kod + image aynı sürümü temsil etmeli.</div></div>
+  <div class="step"><b>4</b><div><strong>Env ve secret.</strong> <span class="mono">JWT_SECRET</span>, <span class="mono">DATABASE_URL</span>, <span class="mono">CORS_ORIGINS</span>. Secret’lar repoda olmaz.</div></div>
+  <div class="step"><b>5</b><div><strong>Compose up.</strong> <span class="mono">docker compose -f docker-compose.prod.yml up -d --build</span>.</div></div>
+  <div class="step"><b>6</b><div><strong>Healthcheck.</strong> <span class="mono">/api/health</span> 200 dönmeli. Caddy sertifikayı almalı.</div></div>
+  <div class="step"><b>7</b><div><strong>Smoke test.</strong> Giriş, sefer, harita, Excel, sevk. Sonra kullanıcıya aç.</div></div>
+
+  <svg class="diagram" viewBox="0 0 780 175" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="arrow5" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0f3d2e"/></marker></defs>
+    <rect x="12" y="45" width="120" height="62" rx="8" fill="#fffdf8" stroke="#d9cfbd"/><text x="72" y="70" text-anchor="middle" font-size="9" font-weight="700">Local</text><text x="72" y="85" text-anchor="middle" font-size="7.5" fill="#6d786f">test + build</text>
+    <line x1="132" y1="76" x2="178" y2="76" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow5)"/>
+    <rect x="180" y="45" width="120" height="62" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/><text x="240" y="70" text-anchor="middle" font-size="9" font-weight="700">Docker image</text><text x="240" y="85" text-anchor="middle" font-size="7.5" fill="#6d786f">paket</text>
+    <line x1="300" y1="76" x2="346" y2="76" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow5)"/>
+    <rect x="348" y="45" width="120" height="62" rx="8" fill="#fffdf8" stroke="#d9cfbd"/><text x="408" y="70" text-anchor="middle" font-size="9" font-weight="700">Sunucu</text><text x="408" y="85" text-anchor="middle" font-size="7.5" fill="#6d786f">git / registry</text>
+    <line x1="468" y1="76" x2="514" y2="76" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow5)"/>
+    <rect x="516" y="45" width="120" height="62" rx="8" fill="#0f3d2e"/><text x="576" y="70" text-anchor="middle" font-size="9" font-weight="700" fill="#fbf7ed">Compose</text><text x="576" y="85" text-anchor="middle" font-size="7.5" fill="rgba(251,247,237,.7)">app + caddy</text>
+    <line x1="636" y1="76" x2="682" y2="76" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow5)"/>
+    <rect x="684" y="45" width="84" height="62" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/><text x="726" y="70" text-anchor="middle" font-size="9" font-weight="700">Health</text><text x="726" y="85" text-anchor="middle" font-size="7.5" fill="#6d786f">200 OK</text>
+  </svg>
+
+  <h3>Environment ve secret</h3>
+  <div class="kv">
+    <dt>JWT_SECRET</dt><dd>Oturum token’larını imzalar. Sızarsa herkesin oturumunu taklit edebilir. <b>Repoda olmaz.</b></dd>
+    <dt>DATABASE_URL</dt><dd>DB’nin yeri. SQLite’ta dosya yolu, Postgres’te bağlantı adresi.</dd>
+    <dt>CORS_ORIGINS</dt><dd>Hangi origin’ler API’ye tarayıcıdan erişebilir. Üretimde sadece kendi domain’in.</dd>
+    <dt>GEOCODING_ENABLED</dt><dd>Adres çözümleme açık/kapalı. Harici servis çağrısını kontrol eder.</dd>
+  </div>
+
+  <h3>Geri dönüş (rollback)</h3>
+  <p>Yeni sürüm bozulursa: önceki image tag’ine dön, compose’u yeniden başlat. DB migration varsa “geri alma” her zaman mümkün olmayabilir; bu yüzden deploy öncesi yedek al. V1’de migration yok; ileride Alembic eklenirse bu adım kritik olur.</p>
+
+  <div class="callout"><strong>Sıfır kesinti şart mı?</strong> V1 için hayır. Kısa bir “bakım penceresi” kabul edilebilir. Ölçek ve müşteri sayısı artınca blue/green veya rolling deploy düşünülür.</div>
+  <div class="footer"><span>Web 101 · Deploy</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 7 -->
+<section class="page">
+  <div class="page-title"><h2>Operasyon ve güvenlik</h2><span>06 / 09</span></div>
+  <p class="lead">Siteyi bir kez açmak kolay. Asıl iş, ertesi gün de açık tutmak.</p>
+
+  <div class="two">
+    <div class="card">
+      <h3>Gözlemleme</h3>
+      <ul>
+        <li><b>Uptime:</b> 1 dakikada bir <span class="mono">/api/health</span>.</li>
+        <li><b>Log:</b> uygulama + Caddy + Docker.</li>
+        <li><b>Disk:</b> <span class="mono">df -h</span>; SQLite büyür.</li>
+        <li><b>RAM:</b> OR-Tools ani yük çıkarabilir.</li>
+        <li><b>Yedek:</b> gerçekten oluşuyor mu?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Güvenlik</h3>
+      <ul>
+        <li>SSH: sadece anahtar, şifre kapalı.</li>
+        <li>Firewall: 22/80/443.</li>
+        <li>HTTPS: Caddy + Let’s Encrypt.</li>
+        <li>Secret’lar: env / dosya, repoda değil.</li>
+        <li>Güncelleme: OS + bağımlılıklar.</li>
+        <li>En az yetki: root yerine deploy kullanıcısı.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Sık arıza senaryoları</h3>
+  <table>
+    <tr><th>Belirti</th><th>Muhtemel neden</th><th>İlk kontrol</th></tr>
+    <tr><td>Site açılmıyor</td><td>DNS / sunucu kapalı / port kapalı</td><td><span class="mono">dig</span>, <span class="mono">curl -I</span>, UFW</td></tr>
+    <tr><td>“Sertifika geçersiz”</td><td>Let’s Encrypt yenilenemedi</td><td>Caddy log, DNS, 80 portu</td></tr>
+    <tr><td>502 Bad Gateway</td><td>App container kapalı / crash</td><td><span class="mono">docker compose ps/logs</span></td></tr>
+    <tr><td>500 Internal Error</td><td>Kod hatası / DB kilitli</td><td>App log, SQLite lock</td></tr>
+    <tr><td>Yavaşlık</td><td>OR-Tools / disk / RAM</td><td>CPU-RAM, optimize süresi</td></tr>
+    <tr><td>Veri kaybı</td><td>Volume yanlış / yedek yok</td><td>Volume mount, backup</td></tr>
+    <tr><td>Harita düz çizgi</td><td>OSRM erişilemiyor</td><td><span class="mono">/api/routes/{id}/geometry</span></td></tr>
+  </table>
+
+  <h3>İzleme eşiği</h3>
+  <p>Şunlar olduğunda alarm istersin: health 2 dakika üst üste fail, disk %80, sertifika 14 gün içinde bitiyor, yedek 26 saatten eski, 5xx oranı %5’i geçti. V1’de UptimeRobot + manuel haftalık kontrol yeterli.</p>
+
+  <div class="callout"><strong>En sık yapılan hata:</strong> “Yedek var” sanmak. Yedek dosyası var ama açılmıyorsa yoktur. Ayda bir restore tatbikatı yap.</div>
+  <div class="footer"><span>Web 101 · Operasyon</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 8 -->
+<section class="page">
+  <div class="page-title"><h2>İbnüssebil örneği: gerçek topoloji</h2><span>07 / 09</span></div>
+  <p class="lead">Tüm kavramları kendi projemize oturtalım. Bu, canlıya çıkarken kullanacağımız gerçek yapı.</p>
+
+  <svg class="diagram" viewBox="0 0 780 300" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="arrow6" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0f3d2e"/></marker></defs>
+    <rect x="10" y="10" width="760" height="280" rx="10" fill="#fffdf8" stroke="#d9cfbd"/>
+    <rect x="30" y="35" width="150" height="55" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="105" y="58" text-anchor="middle" font-size="10" font-weight="700">Cloudflare DNS</text>
+    <text x="105" y="74" text-anchor="middle" font-size="8" fill="#6d786f">A → VPS IP</text>
+    <line x1="180" y1="62" x2="245" y2="62" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow6)"/>
+    <rect x="247" y="25" width="500" height="245" rx="10" fill="none" stroke="#0f3d2e" stroke-dasharray="5 4"/>
+    <text x="265" y="46" font-size="9" font-weight="800" fill="#0f3d2e">Hetzner VPS · Ubuntu 24.04 · Docker</text>
+    <rect x="270" y="65" width="145" height="150" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="342" y="90" text-anchor="middle" font-size="10" font-weight="700">Caddy</text>
+    <text x="342" y="106" text-anchor="middle" font-size="8" fill="#6d786f">80/443</text>
+    <text x="342" y="122" text-anchor="middle" font-size="8" fill="#6d786f">TLS + proxy</text>
+    <text x="342" y="138" text-anchor="middle" font-size="8" fill="#6d786f">güvenlik başlıkları</text>
+    <line x1="415" y1="140" x2="475" y2="140" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow6)"/>
+    <rect x="477" y="65" width="160" height="150" rx="8" fill="#0f3d2e"/>
+    <text x="557" y="90" text-anchor="middle" font-size="10" font-weight="700" fill="#fbf7ed">app</text>
+    <text x="557" y="106" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">FastAPI + Uvicorn</text>
+    <text x="557" y="122" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">OR-Tools</text>
+    <text x="557" y="138" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">React build</text>
+    <text x="557" y="154" text-anchor="middle" font-size="8" fill="rgba(251,247,237,.7)">JWT auth</text>
+    <line x1="637" y1="140" x2="690" y2="140" stroke="#0f3d2e" stroke-width="1.5" marker-end="url(#arrow6)"/>
+    <rect x="692" y="95" width="38" height="90" rx="8" fill="#f3e8cf" stroke="#d9cfbd"/>
+    <text x="711" y="122" text-anchor="middle" font-size="8" font-weight="700">/data</text>
+    <text x="711" y="136" text-anchor="middle" font-size="7" fill="#6d786f">SQLite</text>
+    <text x="711" y="150" text-anchor="middle" font-size="7" fill="#6d786f">volume</text>
+    <rect x="270" y="230" width="190" height="30" rx="8" fill="#eee7d9" stroke="#d9cfbd"/>
+    <text x="365" y="249" text-anchor="middle" font-size="8" fill="#17261f">public OSRM (harita çizgisi)</text>
+    <rect x="475" y="230" width="190" height="30" rx="8" fill="#eee7d9" stroke="#d9cfbd"/>
+    <text x="570" y="249" text-anchor="middle" font-size="8" fill="#17261f">Photon (adres çözümleme)</text>
+  </svg>
+
+  <div class="two">
+    <div class="card">
+      <h3>Her parça ne yapıyor?</h3>
+      <ul>
+        <li><b>Cloudflare DNS:</b> domaini VPS IP’sine bağlar.</li>
+        <li><b>Caddy:</b> HTTPS, statik dosya, proxy.</li>
+        <li><b>FastAPI:</b> auth, sevkiyat, menzil, güzergâh.</li>
+        <li><b>OR-Tools:</b> rota optimizasyonu.</li>
+        <li><b>SQLite:</b> kullanıcı, kervan, menzil, güzergâh.</li>
+        <li><b>OSRM:</b> haritada yol geometrisi.</li>
+        <li><b>Photon:</b> adres → koordinat.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Maliyet</h3>
+      <table style="margin:0">
+        <tr><td>Domain</td><td>$10–15 / yıl</td></tr>
+        <tr><td>Hetzner VPS</td><td>€6–15 / ay</td></tr>
+        <tr><td>Cloudflare DNS</td><td>$0</td></tr>
+        <tr><td>Caddy / Let’s Encrypt</td><td>$0</td></tr>
+        <tr><td>SQLite</td><td>$0</td></tr>
+        <tr><td>Yedek (R2/S3)</td><td>$0–5 / ay</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3>V1’de bilerek yok</h3>
+  <p>Kubernetes, load balancer, Redis, microservice, multi-region, CI/CD zorunluluğu. Bunlar ölçek gelince eklenir. V1’de tek VPS + Docker + Caddy + SQLite + yedek yeterli.</p>
+
+  <div class="callout"><strong>Bu yapı “gerçek” mi?</strong> Evet. Küçük bir ürün için tamamen gerçek. Büyük şirketlerde aynı katmanlar vardır; sadece her katman ayrı servis, ayrı ekip ve daha fazla otomasyon olur.</div>
+  <div class="footer"><span>Web 101 · İbnüssebil topolojisi</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 9 -->
+<section class="page">
+  <div class="page-title"><h2>Ölçekleme ve sözlük</h2><span>08 / 09</span></div>
+  <p class="lead">Ölçekleme, “daha çok sunucu” değil; darboğazı bulup doğru katmanı büyütmektir.</p>
+
+  <div class="two">
+    <div class="card">
+      <h3>Dikey vs yatay</h3>
+      <p><b>Dikey:</b> Sunucuya daha çok CPU/RAM. En kolayı. V1 için doğru yol.</p>
+      <p><b>Yatay:</b> Birden fazla app instance + load balancer. Ama SQLite tek dosya olduğu için önce Postgres gerekir.</p>
+    </div>
+    <div class="card">
+      <h3>Ne zaman gerekir?</h3>
+      <ul>
+        <li>CPU sürekli %80+ → daha büyük VPS.</li>
+        <li>Eşzamanlı yazma artıyor → Postgres.</li>
+        <li>Yedek/restore yavaşlıyor → yönetilen DB.</li>
+        <li>Tek sunucu riski → ikinci sunucu + LB.</li>
+        <li>Uzun optimizasyonlar → queue/worker.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Sözlük</h3>
+  <table>
+    <tr><th>Terim</th><th>Anlamı</th></tr>
+    <tr><td><b>DNS</b></td><td>Domain ismini IP’ye çeviren telefon rehberi.</td></tr>
+    <tr><td><b>A kaydı</b></td><td>Domain → IPv4 adresi.</td></tr>
+    <tr><td><b>CNAME</b></td><td>Bir ismi başka bir isme yönlendirme.</td></tr>
+    <tr><td><b>TTL</b></td><td>DNS cevabının önbellek süresi.</td></tr>
+    <tr><td><b>IP</b></td><td>Sunucunun internetteki adresi.</td></tr>
+    <tr><td><b>Port</b></td><td>Aynı IP’deki servis kapısı (22, 80, 443, 8000).</td></tr>
+    <tr><td><b>TCP</b></td><td>Güvenilir bağlantı protokolü; paketlerin sırayla gitmesini sağlar.</td></tr>
+    <tr><td><b>TLS</b></td><td>Bağlantıyı şifreleyen katman; HTTPS’in “S”si.</td></tr>
+    <tr><td><b>Reverse proxy</b></td><td>Dış isteği karşılayıp iç servise ileten kapı (Caddy).</td></tr>
+    <tr><td><b>Container</b></td><td>Image’ın çalışan örneği.</td></tr>
+    <tr><td><b>Volume</b></td><td>Container silinse de kalan kalıcı disk.</td></tr>
+    <tr><td><b>Healthcheck</b></td><td>Servisin yaşadığını anlamak için periyodik kontrol.</td></tr>
+    <tr><td><b>CI/CD</b></td><td>Test/build/deploy otomasyonu. V1’de manuel de olur.</td></tr>
+    <tr><td><b>RTO / RPO</b></td><td>Toparlanma süresi / kabul edilebilir veri kaybı.</td></tr>
+    <tr><td><b>Load balancer</b></td><td>Gelen trafiği birden fazla sunucuya dağıtır.</td></tr>
+  </table>
+
+  <div class="footer"><span>Web 101 · Ölçek ve sözlük</span><span>İbnüssebil</span></div>
+</section>
+
+<!-- PAGE 10 -->
+<section class="page">
+  <div class="page-title"><h2>10 cümlede özet</h2><span>09 / 09</span></div>
+  <p class="lead">Bu dersin tamamını tek sayfaya sığdıralım. Bir site canlıda şu zincirle ayakta durur:</p>
+
+  <div class="dark">
+    <ol>
+      <li>Domain adı, DNS ise telefon rehberidir.</li>
+      <li>DNS, domaini sunucunun IP’sine çevirir.</li>
+      <li>Tarayıcı 443 portundan TLS ile bağlanır.</li>
+      <li>Caddy sertifikayı yönetir ve isteği içeri iletir.</li>
+      <li>FastAPI iş mantığını çalıştırır.</li>
+      <li>SQLite/Postgres veriyi tutar; volume kalıcılığı sağlar.</li>
+      <li>Docker, aynı paketi her yerde çalıştırır.</li>
+      <li>Healthcheck ve log, arızayı erken gösterir.</li>
+      <li>Yedek sunucu dışında değilse yok sayılır.</li>
+      <li>Ölçek, darboğazı bulup doğru katmanı büyütmektir.</li>
+    </ol>
+  </div>
+
+  <h3>Canlıya çıkış kontrol listesi</h3>
+  <ul class="checklist">
+    <li>Domain alındı, DNS Cloudflare’de.</li>
+    <li>A kaydı VPS IP’sini gösteriyor.</li>
+    <li>SSH anahtarıyla giriş var, şifre kapalı.</li>
+    <li>Firewall sadece 22/80/443 açık.</li>
+    <li>JWT_SECRET güçlü ve repoda değil.</li>
+    <li>HTTPS sertifikası çalışıyor.</li>
+    <li><span class="mono">/api/health</span> 200 dönüyor.</li>
+    <li>Günlük yedek cron’u çalışıyor.</li>
+    <li>Yedek sunucu dışına kopyalanıyor.</li>
+    <li>Uptime izlemesi açık.</li>
+  </ul>
+
+  <div class="callout"><strong>Son söz:</strong> Bir site, tek bir büyük sihirle değil; küçük ve doğru parçaların birbirine güvenmesiyle ayakta kalır. Domain, DNS, TLS, proxy, uygulama, veri, yedek ve izleme. Birini atlarsan zincir oradan kopar.</div>
+
+  <div class="footer"><span>Web 101 · Özet</span><span>İbnüssebil</span></div>
+</section>
+
+</body>
+</html>

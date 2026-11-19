@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<title>Backend Mülakat Notları — 23 Soru</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0; color: #17261f; background: #f6f1e7;
+    font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 9.5pt; line-height: 1.5;
+  }
+  h1, h2, h3, h4 { margin: 0; }
+  h1, h2 { font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif; font-weight: 600; letter-spacing: -0.02em; }
+  h1 { font-size: 29pt; line-height: 1.03; }
+  h2 { font-size: 19pt; line-height: 1.1; }
+  h3 { font-size: 12.2pt; line-height: 1.25; color: #0f3d2e; }
+  h4 { font-size: 9.5pt; color: #0f3d2e; margin: 3mm 0 1.2mm; text-transform: uppercase; letter-spacing: 0.07em; }
+  p { margin: 0 0 2.4mm; }
+  ul, ol { margin: 0 0 2.5mm 4.5mm; padding: 0; }
+  li { margin-bottom: 1.2mm; }
+  small { font-size: 8pt; color: #6d786f; }
+  .cover {
+    min-height: 260mm; display: flex; flex-direction: column; justify-content: space-between;
+    padding: 10mm; border-radius: 3mm; color: #fbf7ed;
+    background: radial-gradient(circle at 100% 0%, rgba(199,154,59,.22), transparent 85mm), linear-gradient(160deg,#0f3d2e,#123f30 60%,#0b3024);
+    break-after: page;
+  }
+  .cover .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 4mm; }
+  .cover .mark { width: 18mm; height: 18mm; border: 1px solid rgba(230,199,125,.55); border-radius: 50%; display: grid; place-items: center; font-family: Georgia, serif; font-size: 18pt; color: #e6c77d; }
+  .cover .meta { text-align: right; color: rgba(251,247,237,.55); font-size: 7.5pt; letter-spacing: .12em; text-transform: uppercase; }
+  .cover h1 { max-width: 145mm; margin-top: 18mm; color: #fbf7ed; }
+  .cover .lead { max-width: 150mm; color: rgba(251,247,237,.72); font-size: 11pt; }
+  .cover .chips { display: flex; flex-wrap: wrap; gap: 2mm; margin-top: 6mm; }
+  .cover .chips span { border: 1px solid rgba(230,199,125,.35); border-radius: 999px; padding: 1.4mm 3mm; font-size: 7.5pt; color: #e6c77d; }
+  .cover .foot { display: flex; justify-content: space-between; gap: 4mm; border-top: 1px solid rgba(251,247,237,.15); padding-top: 3mm; color: rgba(251,247,237,.45); font-size: 7pt; text-transform: uppercase; letter-spacing: .08em; }
+  .part { break-before: page; padding-top: 2mm; }
+  .part-head { background: #0f3d2e; color: #fbf7ed; border-radius: 3mm; padding: 7mm 8mm; margin-bottom: 5mm; }
+  .part-head .eyebrow { color: #e6c77d; }
+  .part-head h2 { color: #fbf7ed; margin: 1.5mm 0 2mm; }
+  .part-head p { color: rgba(251,247,237,.7); margin: 0; max-width: 155mm; }
+  .eyebrow { display: inline-block; color: #b8862f; font-size: 7.2pt; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+  .lead { font-size: 10.8pt; color: #425249; max-width: 165mm; }
+  .muted { color: #6d786f; }
+  .qa { border-top: 1px solid #ddd3c2; padding-top: 3.5mm; margin-top: 4mm; break-inside: avoid; }
+  .qa:first-of-type { border-top: 0; margin-top: 0; }
+  .qnum { display: inline-block; background: #f3e8cf; color: #8a641d; font-size: 7pt; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 1mm 2.2mm; border-radius: 999px; margin-bottom: 1.8mm; }
+  .qa h3 { margin-bottom: 2.2mm; }
+  .short { background: #e9f2eb; border-left: 3px solid #0f3d2e; padding: 2.8mm 3.5mm; border-radius: 0 2mm 2mm 0; margin-bottom: 3mm; }
+  .short b { color: #0f3d2e; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .card { border: 1px solid #e1d9c9; border-radius: 2.5mm; padding: 3.2mm 3.8mm; background: rgba(255,253,248,.75); break-inside: avoid; }
+  .card h4 { margin-top: 0; }
+  .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+  .tip { background: #f3e8cf; border-radius: 2mm; padding: 2.6mm 3.4mm; margin-top: 2.6mm; font-size: 8.8pt; }
+  .tip b { color: #8a641d; }
+  .warn { background: #f8e5e2; border-left: 3px solid #a83a3a; border-radius: 0 2mm 2mm 0; padding: 2.6mm 3.4mm; margin-top: 2.4mm; font-size: 8.8pt; }
+  .warn b { color: #a83a3a; }
+  pre { margin: 2mm 0 2.6mm; padding: 2.6mm 3.2mm; border-radius: 2mm; background: #122e24; color: #e9f2eb; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 7.8pt; line-height: 1.42; white-space: pre-wrap; break-inside: avoid; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 8.2pt; background: #eee7d9; padding: .2mm 1mm; border-radius: 1mm; }
+  table { width: 100%; border-collapse: collapse; margin: 2.5mm 0 3.5mm; font-size: 8.3pt; break-inside: avoid; }
+  th, td { text-align: left; padding: 1.9mm 2.2mm; border-bottom: 1px solid #e1d9c9; vertical-align: top; }
+  th { background: #eee7d9; color: #0f3d2e; font-size: 7.2pt; text-transform: uppercase; letter-spacing: .06em; }
+  .diagram { width: 100%; margin: 2.5mm 0 4mm; break-inside: avoid; }
+  .diagram text { font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif; }
+  .callout { border-left: 3px solid #b8862f; background: #f3e8cf; padding: 3mm 4mm; border-radius: 0 2mm 2mm 0; margin: 3mm 0; break-inside: avoid; }
+  .footer { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; border-top: 1px solid #e1d9c9; padding-top: 1.8mm; color: #9aa49c; font-size: 6.8pt; text-transform: uppercase; letter-spacing: .08em; }
+  .toc { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm 7mm; margin-top: 4mm; }
+  .toc div { display: flex; gap: 2.5mm; border-bottom: 1px solid #e1d9c9; padding: 2.2mm 0; font-size: 8.8pt; }
+  .toc b { color: #b8862f; min-width: 7mm; }
+  .checklist li { list-style: none; margin-left: 0; }
+  .checklist li::before { content: "☐"; color: #b8862f; margin-right: 2mm; }
+  .compact li { margin-bottom: .9mm; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div>
+    <div class="top">
+      <div class="mark">E</div>
+      <div class="meta">Enes Göktaş<br/>Backend · Cloud · Data</div>
+    </div>
+    <h1>Backend mülakat notları</h1>
+    <p class="lead">
+      23 teknik soru, detaylı cevaplar ve “neden böyle?” açıklamaları.
+      Agentic coding ile öğrenenler için teoriyi kodun üzerinden anlatan bir çalışma notu.
+    </p>
+    <div class="chips">
+      <span>AWS Lambda</span><span>SQS / SNS</span><span>MongoDB</span><span>SQL</span>
+      <span>TypeScript / Node</span><span>Python</span><span>Event-driven</span><span>Last-mile VRP</span>
+    </div>
+  </div>
+  <div class="foot"><span>Mülakat hazırlığı</span><span>2026</span><span>23 soru · detaylı cevap</span></div>
+</section>
+
+<!-- HOW TO READ -->
+<section class="part">
+  <span class="eyebrow">Başlamadan</span>
+  <h2>Bu notlar nasıl okunmalı?</h2>
+  <p class="lead">Teori çalışmadan, sadece yapay zekâ ile kod yazarak öğrenmek mümkün; ama mülakatta “neden böyle?” sorusu gelir. Bu notlar tam o boşluğu kapatmak için.</p>
+  <div class="two" style="margin-top:4mm">
+    <div class="card"><h4>Her soruda</h4><ul class="compact"><li><b>Kısa cevap:</b> mülakatta söyleyeceğin özet.</li><li><b>Ne demek?</b> kavramın sade açıklaması.</li><li><b>Neden önemli?</b> gerçek hayatta neyi çözer.</li><li><b>Nasıl çalışır?</b> adım adım mekanizma.</li><li><b>Mülakatta:</b> cevabı nasıl çerçeveleyeceğin.</li></ul></div>
+    <div class="card"><h4>Kodla öğrendiysen</h4><p>Bir kavramı “çalışıyor” diye değil, <b>hangi problemi çözdüğü</b> ve <b>hangi trade-off’u aldığı</b> için bileceksin. Örneğin idempotency, “SQS bazen aynı mesajı iki kez verir” probleminin cevabıdır; sadece bir fonksiyon değildir.</p><p>Mülakatta önce problemi, sonra çözümü, sonra da yan etkisini söyle. Bu, ezberden çok daha güçlü durur.</p></div>
+  </div>
+  <div class="callout"><b>Altın formül:</b> “Problem → trade-off → benim çözümüm → nasıl doğruladım?” Bu dört adım, neredeyse her backend sorusunda işe yarar.</div>
+  <h3>İçindekiler</h3>
+  <div class="toc">
+    <div><b>01–05</b><span>AWS, Lambda, SQS, SNS, concurrency</span></div>
+    <div><b>06–10</b><span>MongoDB, SQL, index, aggregation, N+1</span></div>
+    <div><b>11–14</b><span>TypeScript, Node, Python, testing</span></div>
+    <div><b>15–20</b><span>Event-driven, Yolda, SAP, CDK</span></div>
+    <div><b>21–23</b><span>Last-mile VRP, OWASP, SSRF</span></div>
+    <div><b>Son</b><span>Cheat sheet + 7 günlük plan</span></div>
+  </div>
+</section>
+
+<!-- PART 1 -->
+<section class="part">
+  <div class="part-head">
+    <span class="eyebrow">Bölüm 01</span>
+    <h2>AWS ve serverless</h2>
+    <p>Lambda, SQS, SNS, EventBridge, concurrency ve cold start. Buradaki soruların çoğu “dağıtık sistemde bir şey ters giderse ne olur?” etrafında döner.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 01 · Idempotency</span>
+    <h3>SQS’ten tetiklenen bir Lambda’da idempotency’yi nasıl sağlarsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> SQS “en az bir kez” teslim eder. Aynı mesajı iki kez işlememek için mesajda bir <b>idempotency key</b> taşırım; işleme başlamadan bu anahtarı koşullu yazma ile kaydederim. Aynı anahtar ikinci kez gelirse işi tekrar yapmam.</div>
+    <div class="two">
+      <div class="card"><h4>Ne demek?</h4><p>Idempotency, aynı işlemin bir kez veya beş kez çağrılmasının <b>aynı sonucu</b> üretmesidir. “Aynı faturayı iki kez ödememek” gibi düşün.</p></div>
+      <div class="card"><h4>Neden önemli?</h4><p>Lambda hata alınca SQS mesajı yeniden verir. Ağ hatası, timeout veya consumer crash’inde aynı mesaj tekrar gelebilir. Push gönderimi, ödeme, stok düşme gibi yan etkiler iki kez olmamalı.</p></div>
+    </div>
+    <h4>Nasıl çalışır?</h4>
+    <ol class="compact">
+      <li>Mesajın içinde iş anlamlı bir anahtar olur: <code>order_id</code>, <code>notification_id</code>, <code>event_id</code>.</li>
+      <li>İşleme başlamadan önce idempotency tablosuna “processing” kaydı atılır. Bu insert <b>unique/conditional</b> olmalı.</li>
+      <li>Insert başarılıysa iş yapılır; başarısızsa “zaten işleniyor/işlendi” denir ve mesaj başarıyla kabul edilir.</li>
+      <li>İş bitince sonuç kaydedilir. Aynı anahtar tekrar gelirse ya sonuç döndürülür ya da hiç iş yapılmaz.</li>
+      <li>Kayıt TTL ile tutulur; sonsuza kadar büyümesin.</li>
+    </ol>
+    <pre>// Pseudocode
+const key = event.notification_id;
+const inserted = await idempotency.put({
+  key,
+  status: "processing",
+  expires_at: now + 7 days
+}, { condition: "attribute_not_exists(key)" });
+
+if (!inserted) return { status: "duplicate" };
+
+await doWork(event);
+await idempotency.update(key, { status: "done" });</pre>
+    <div class="warn"><b>Tuzak:</b> Idempotency anahtarı “mesaj ID”si olmamalı; aynı iş farklı mesajlarla gelebilir. İş anlamlı anahtar kullan: <code>order_id</code> + işlem tipi. Ayrıca iki Lambda aynı anda aynı anahtarı işlemeye çalışabilir; conditional write/unique constraint olmadan yarış koşulu kalır.</div>
+    <div class="tip"><b>Mülakatta:</b> “SQS at-least-once olduğu için consumer’ı idempotent yaptım. Her event’te iş anahtarı var; DynamoDB conditional put ile tek seferlik işleme kapısı kurdum. Yan etkilerde provider deduplication’ı ikinci savunma olarak kullandım.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 02 · Cold start</span>
+    <h3>Lambda cold start neden olur, nasıl azaltırsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> Lambda’nın yeni bir execution environment hazırlamasıdır: runtime başlar, kod indirilir, init kodu çalışır. Paketi küçültmek, init’i hafifletmek, provisioned concurrency ve Java için SnapStart kullanmak cold start’ı azaltır.</div>
+    <div class="two">
+      <div class="card"><h4>Ne demek?</h4><p>Lambda iki durumda çalışır: <b>cold</b> (yeni ortam) ve <b>warm</b> (hazır ortam). Cold start, ilk isteğin daha yavaş olmasıdır.</p></div>
+      <div class="card"><h4>Neden önemli?</h4><p>p95/p99 latency ve timeout’ları etkiler. Özellikle Java, büyük paketler, VPC ve init’te ağır iş yapan fonksiyonlarda belirgindir.</p></div>
+    </div>
+    <h4>Neler yapar?</h4>
+    <ul class="compact">
+      <li>Runtime başlatma (Python/Node/Java farkı)</li>
+      <li>Kod paketinin indirilmesi/açılması</li>
+      <li>Init kodunun çalışması: DB client, config, büyük kütüphaneler</li>
+      <li>VPC ENI hazırlığı (eski nesil; Hyperplane ile azaldı)</li>
+    </ul>
+    <h4>Azaltma yolları</h4>
+    <ul class="compact">
+      <li><b>Paket küçült:</b> Gereksiz dependency, büyük asset, test dosyaları dışarıda.</li>
+      <li><b>Lazy init:</b> Her istekte değil, gerektiğinde bağlantı aç; ama sıcak ortamda tekrar tekrar açma.</li>
+      <li><b>Provisioned concurrency:</b> Önceden ısıtılmış ortam; maliyeti var.</li>
+      <li><b>SnapStart:</b> Java için init sonrası snapshot; her zaman uygun değil.</li>
+      <li><b>Memory/CPU:</b> Lambda’da CPU, memory ile ölçeklenir; biraz artırmak init’i hızlandırabilir.</li>
+    </ul>
+    <div class="tip"><b>Mülakatta:</b> “Cold start’ı tek bir şeyle çözmem; p95’i ölçerim. Paket boyutu, init süresi, VPC ve runtime’a bakarım. Sürekli trafikte provisioned concurrency, Java’da SnapStart ciddi fark yaratır.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 03 · SNS / SQS / EventBridge</span>
+    <h3>SNS, SQS ve EventBridge arasındaki fark nedir?</h3>
+    <div class="short"><b>Kısa cevap:</b> SNS <b>push tabanlı pub/sub</b>, SQS <b>pull tabanlı kuyruk</b>, EventBridge ise <b>event bus + kural/filtreleme</b>. Fan-out için SNS → SQS; event yönlendirme için EventBridge kullanılır.</div>
+    <table>
+      <tr><th></th><th>SNS</th><th>SQS</th><th>EventBridge</th></tr>
+      <tr><td><b>Model</b></td><td>Pub/sub, push</td><td>Queue, pull</td><td>Event bus, rule</td></tr>
+      <tr><td><b>Kalıcılık</b></td><td>Abone yoksa mesaj kaybolabilir</td><td>Mesaj bekler, retry/DLQ</td><td>Kurala göre hedefe yönlendirir</td></tr>
+      <tr><td><b>Fan-out</b></td><td>Doğal</td><td>Tek tüketici grubu; fan-out için SNS</td><td>Kurallarla çoklu hedef</td></tr>
+      <tr><td><b>Filtreleme</b></td><td>Sınırlı</td><td>Yok</td><td>Güçlü içerik filtresi</td></tr>
+      <tr><td><b>Tipik kullanım</b></td><td>Bir olayı birden fazla kuyruğa dağıt</td><td>Buffer, retry, async iş</td><td>Servisler arası event routing</td></tr>
+    </table>
+    <p>Örnek: “Sipariş oluştu” event’i SNS’e gider; SNS bunu <b>e-posta kuyruğu</b>, <b>push kuyruğu</b> ve <b>analitik kuyruğu</b> olmak üzere üç SQS kuyruğuna fan-out eder. Her consumer kendi hızında işler.</p>
+    <div class="warn"><b>Tuzak:</b> SNS’e abone yokken mesajı kalıcı sanmak. SQS kuyruğu yoksa mesaj kaybolabilir. Fan-out’ta her consumer için ayrı SQS kuyruğu kullan.</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 04 · SQS retry / DLQ</span>
+    <h3>SQS’te retry, visibility timeout ve DLQ nasıl çalışır?</h3>
+    <div class="short"><b>Kısa cevap:</b> Mesaj alındığında visibility timeout boyunca görünmez olur. Başarıyla silinirse biter; silinmezse süre sonunda tekrar görünür. <code>maxReceiveCount</code> aşılırsa DLQ’ya gider.</div>
+    <h4>Zaman çizelgesi</h4>
+    <ol class="compact">
+      <li>Consumer mesajı alır.</li>
+      <li>Visibility timeout başlar; mesaj başka consumer’a görünmez.</li>
+      <li>İş başarılıysa mesaj silinir.</li>
+      <li>İş başarısızsa veya consumer çökerse timeout sonunda mesaj tekrar görünür.</li>
+      <li>Belirlenen <code>maxReceiveCount</code> sonrası mesaj DLQ’ya taşınır.</li>
+    </ol>
+    <p><b>Visibility timeout</b>, işlem süresinden uzun olmalı. Kısa olursa aynı mesaj işlenirken tekrar görünür; uzun olursa hata sonrası retry gecikir.</p>
+    <pre>// Lambda SQS partial batch failure
+export const handler = async (event) => {
+  const failures = [];
+  for (const record of event.Records) {
+    try { await process(record); }
+    catch (e) { failures.push({ itemIdentifier: record.messageId }); }
+  }
+  return { batchItemFailures: failures };
+};</pre>
+    <p>Bu sayede başarılı mesajlar tekrar işlenmez; sadece başarısız olanlar kuyruğa döner. Yine de consumer idempotent olmalı.</p>
+    <div class="tip"><b>Mülakatta:</b> “DLQ’yu bir çöp kutusu değil, alarm kaynağı olarak görürüm. DLQ depth > 0 ise alert; mesajı redrive ile geri alıp düzeltip tekrar işlerim.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 05 · Concurrency</span>
+    <h3>API Gateway throttling ile Lambda reserved concurrency farkı nedir?</h3>
+    <div class="short"><b>Kısa cevap:</b> API Gateway <b>gelen istek hızını</b> sınırlar (429). Lambda concurrency ise <b>aynı anda çalışan Lambda sayısını</b> sınırlar (throttle/503). Biri kapıdaki hız limiti, diğeri mutfaktaki aşçı sayısı gibidir.</div>
+    <div class="two">
+      <div class="card"><h4>API Gateway</h4><p>Rate/burst limit; dışarıdan gelen trafiği korur. Aşılırsa <b>429 Too Many Requests</b>. Client retry/backoff yapmalı.</p></div>
+      <div class="card"><h4>Lambda concurrency</h4><p>Fonksiyonun eşzamanlı instance sayısı. Reserved concurrency bu sayıyı garanti eder/üst sınır koyar; provisioned concurrency ise önceden ısıtır.</p></div>
+    </div>
+    <p>Örnek: API Gateway saniyede 1.000 istek kabul ediyor ama Lambda’nın reserved concurrency’si 100. Trafik 500’e çıkarsa Lambda tarafında throttle olur. Bu yüzden iki katmanı birlikte planlamak gerekir.</p>
+    <h4>CloudWatch’ta neye bakılır?</h4>
+    <ul class="compact">
+      <li><b>Errors</b>, <b>Throttles</b>, <b>Duration p95/p99</b>, <b>ConcurrentExecutions</b></li>
+      <li>SQS: <b>AgeOfOldestMessage</b>, <b>ApproximateNumberOfMessagesVisible</b>, DLQ depth</li>
+      <li>Business metric: başarılı gönderim, başarısız işlem, kuyruk bekleme süresi</li>
+    </ul>
+    <div class="tip"><b>Mülakatta:</b> “Throttle’ı tek bir yerde çözmem. API Gateway’de rate limit, Lambda’da reserved concurrency, downstream’de kuyruk ve backoff birlikte tasarlanır. Aksi halde bir katmanı korurken diğerini patlatırım.”</div>
+  </div>
+</section>
+
+<!-- PART 2 -->
+<section class="part">
+  <div class="part-head">
+    <span class="eyebrow">Bölüm 02</span>
+    <h2>MongoDB, SQL ve veri modelleme</h2>
+    <p>Index’in neden hızlı olduğu, aggregation’ın nerede yavaşladığı ve SQL ile MongoDB arasındaki seçim. Ezber değil, “hangi erişim deseni?” sorusu.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 06 · Compound index</span>
+    <h3>MongoDB’de compound index sırasını neye göre seçersin?</h3>
+    <div class="short"><b>Kısa cevap:</b> <b>ESR</b>: önce <b>Equality</b> alanları, sonra <b>Sort</b>, en son <b>Range</b>. Sorgunun <code>find</code> ve <code>sort</code> desenine bakarım; <code>explain</code> ile index kullanımını doğrularım.</div>
+    <div class="two">
+      <div class="card"><h4>Ne demek?</h4><p>Compound index, birden fazla alanı sıralı bir B-tree gibi tutar. Sıra önemlidir; çünkü index ancak “solmost prefix” ile eşleşirse kullanılır.</p></div>
+      <div class="card"><h4>Neden önemli?</h4><p>Yanlış sıra, index’in hiç kullanılmamasına veya bellekte sort yapılmasına yol açar. Doğru sıra, hem okumayı hem de sort’u index’ten karşılar.</p></div>
+    </div>
+    <h4>Örnek</h4>
+    <p>Sorgu: <code>{ tenant_id, status }</code> eşitliği + <code>created_at</code> desc sıralaması.</p>
+    <pre>index: { tenant_id: 1, status: 1, created_at: -1 }
+
+find({ tenant_id, status }).sort({ created_at: -1 })</pre>
+    <p>Bu index: <code>tenant_id</code> + <code>status</code> eşitliğini ve <code>created_at</code> sıralamasını birlikte karşılar. <code>explain("executionStats")</code>’te <code>IXSCAN</code> görmek, <code>COLLSCAN</code> görmemek ve <code>hasSortStage: false</code> olması iyi işaretlerdir.</p>
+    <h4>Neye bakılır?</h4>
+    <ul class="compact">
+      <li><code>totalKeysExamined</code> / <code>nReturned</code> oranı</li>
+      <li><code>totalDocsExamined</code> düşük mü?</li>
+      <li>Sort index’ten mi geliyor, bellekte mi?</li>
+      <li>Index write maliyeti: her insert/update’te güncellenir.</li>
+    </ul>
+    <div class="warn"><b>Tuzak:</b> Her alanı indexlemek hız değil, yavaşlık getirir. Yazma maliyeti, disk ve cache baskısı artar. Az ama doğru index.</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 07 · Aggregation</span>
+    <h3>MongoDB aggregation query’sini nasıl optimize edersin?</h3>
+    <div class="short"><b>Kısa cevap:</b> <code>$match</code> ve <code>$limit</code>’i pipeline’ın başına alır, gerekli alanları <code>$project</code> ile azaltır, <code>$lookup</code>/<code>$unwind</code>’i küçük veriyle yapar ve <code>explain</code> ile index kullanımını doğrularım.</div>
+    <h4>Pipeline mantığı</h4>
+    <ol class="compact">
+      <li><b>Önce filtrele:</b> <code>$match</code> en başta olsun; tüm koleksiyonu taramak pahalıdır.</li>
+      <li><b>Sonra sırala:</b> <code>$sort</code>’u filtreden sonra yap; index destekliyorsa bellekten sort yapılmaz.</li>
+      <li><b>Alanları azalt:</b> <code>$project</code> ile sadece gereken alanları taşı.</li>
+      <li><b>Join’i küçült:</b> <code>$lookup</code> öncesi veri küçük olsun; foreign field indexli olsun.</li>
+      <li><b>Unwind dikkat:</b> <code>$unwind</code> veri sayısını patlatabilir; önce filtrele.</li>
+    </ol>
+    <pre>// Kötü: önce join, sonra filtre
+[ { $lookup: ... }, { $unwind: ... }, { $match: ... } ]
+
+// İyi: önce filtre, sonra küçük join
+[ { $match: ... }, { $project: ... }, { $lookup: ... } ]</pre>
+    <p><code>explain("executionStats")</code>’te <code>COLLSCAN</code>, <code>SORT</code>, yüksek <code>totalDocsExamined</code> ve <code>hasSortStage: true</code> görüyorsan iş yapılacak demektir.</p>
+    <div class="tip"><b>Mülakatta:</b> “Aggregation’ı sadece yazmıyorum; <code>explain</code> ile hangi aşamanın pahalı olduğunu buluyorum. Çoğu zaman çözüm index veya pipeline sırası; <code>allowDiskUse</code> ise son çare.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 08 · SQL vs MongoDB</span>
+    <h3>SQL mi MongoDB mi? Ne zaman hangisi?</h3>
+    <div class="short"><b>Kısa cevap:</b> İlişkisel bütünlük, join, transaction ve raporlama ağırlıklıysa SQL; esnek şema, doküman bazlı erişim ve yatay ölçek önemliyse MongoDB. Seçim moda değil, <b>erişim deseni</b> meselesi.</div>
+    <table>
+      <tr><th>İhtiyaç</th><th>SQL</th><th>MongoDB</th></tr>
+      <tr><td>İlişkiler / join</td><td>Güçlü</td><td><code>$lookup</code> var ama join odaklı değil</td></tr>
+      <tr><td>Transaction</td><td>Olgun</td><td>Destekler; ama tasarımda dikkat</td></tr>
+      <tr><td>Şema</td><td>Katı, migration</td><td>Esnek, validation opsiyonel</td></tr>
+      <tr><td>Yatay ölçek</td><td>Daha zor</td><td>Doğal sharding</td></tr>
+      <tr><td>Raporlama</td><td>Güçlü SQL</td><td>Aggregation ile mümkün</td></tr>
+    </table>
+    <div class="callout"><b>Pratik kural:</b> “Bu veriyi nasıl okuyacağım?” sorusuna önce cevap ver. Eğer cevap “kullanıcı + sipariş + ödeme + ürünü join’leyip rapor alacağım” ise SQL. “Bir dokümanı id ile alıp içindeki array’i güncelleyeceğim” ise MongoDB.</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 09 · SQL index</span>
+    <h3>Composite index ve covering index nedir?</h3>
+    <div class="short"><b>Kısa cevap:</b> Composite index birden fazla kolonu sıralı tutar; solmost prefix kuralı vardır. Covering index, sorgunun ihtiyaç duyduğu tüm kolonları içerir; tabloya gitmeden cevap verir.</div>
+    <h4>Solmost prefix</h4>
+    <p>Index: <code>(tenant_id, created_at)</code>. Bu index:</p>
+    <ul class="compact">
+      <li><code>WHERE tenant_id = ?</code> → kullanılır.</li>
+      <li><code>WHERE tenant_id = ? ORDER BY created_at</code> → kullanılır.</li>
+      <li><code>WHERE created_at &gt; ?</code> → genelde kullanılmaz.</li>
+    </ul>
+    <h4>Covering index</h4>
+    <pre>-- Sorgu
+SELECT tenant_id, status, created_at
+FROM orders
+WHERE tenant_id = ?
+ORDER BY created_at DESC;
+
+-- Covering index
+CREATE INDEX idx_orders_tenant_status_created
+ON orders (tenant_id, status, created_at DESC);</pre>
+    <p>Index tüm gerekli kolonları içeriyorsa DB tabloya gitmez; buna covering index denir. <code>EXPLAIN</code>/<code>EXPLAIN ANALYZE</code> ile index kullanımını ve cost’u kontrol et.</p>
+    <div class="warn"><b>Tuzak:</b> Index’i “her sorguya bir tane” diye eklemek yanlış. Yazma maliyeti, disk ve bakım yükü artar. Önce yavaş sorguyu ölç, sonra index ekle.</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 10 · N+1</span>
+    <h3>N+1 query problemi nedir, nasıl çözersin?</h3>
+    <div class="short"><b>Kısa cevap:</b> Ana sorgu N kayıt döndürür, sonra her kayıt için ayrı sorgu atılır; 1+N sorgu oluşur. Eager loading, join veya <code>IN</code> ile batch fetch kullanılır.</div>
+    <h4>Örnek</h4>
+    <pre>// N+1
+const orders = await db.order.findMany();
+for (const order of orders) {
+  order.customer = await db.customer.findUnique({ id: order.customerId });
+}
+
+// Daha iyi: ilişkiyi eager load et
+const orders = await db.order.findMany({ include: { customer: true } });
+
+// veya tek sorguda batch
+const customerIds = orders.map(o => o.customerId);
+const customers = await db.customer.findMany({ id: { in: customerIds } });</pre>
+    <p>ORM’lerde lazy loading varsayılan olabilir. Query log/APM ile istek başına sorgu sayısını izle. 1 istekte 100 sorgu görüyorsan N+1 var.</p>
+  </div>
+</section>
+
+<!-- PART 3 -->
+<section class="part">
+  <div class="part-head">
+    <span class="eyebrow">Bölüm 03</span>
+    <h2>Dil ve kod: TypeScript, Node, Python</h2>
+    <p>Kod yazarken “çalışıyor” ile “doğru” arasındaki fark. Özellikle event loop, GIL ve tip güvenliği mülakatta sık sorulur.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 11 · TypeScript</span>
+    <h3><code>any</code> yerine neden <code>unknown</code> kullanılır?</h3>
+    <div class="short"><b>Kısa cevap:</b> <code>any</code> tip kontrolünü kapatır; hata runtime’a kayar. <code>unknown</code> ise kullanmadan önce daraltma/doğrulama gerektirir, bu yüzden daha güvenlidir.</div>
+    <pre>function isUser(value: unknown): value is User {
+  return typeof value === "object" && value !== null &&
+    "id" in value && "email" in value;
+}
+
+const data: unknown = JSON.parse(payload);
+if (!isUser(data)) throw new BadRequest("invalid user");
+console.log(data.email); // artık güvenli</pre>
+    <p>Dış dünyadan gelen her şey <code>unknown</code> olmalı: HTTP body, queue message, env, third-party response. Zod/io-ts gibi schema validation ile runtime’da doğrula.</p>
+    <div class="tip"><b>Mülakatta:</b> “<code>any</code>’yi kaçış kapısı olarak görmüyorum. Dış veriyi <code>unknown</code> ile alıp schema validation’dan geçiriyorum. Tip güvenliği derleme zamanında, doğrulama runtime’da.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 12 · Node.js</span>
+    <h3>Node.js event loop’u nasıl çalışır? CPU-bound iş ne yapar?</h3>
+    <div class="short"><b>Kısa cevap:</b> Event loop tek thread’de I/O’yu yönetir. Uzun süren senkron CPU işi event loop’u bloklar; tüm istekler gecikir. CPU işi worker thread, child process veya ayrı servise taşınır.</div>
+    <p>Kabaca döngü: <b>timers → pending callbacks → poll (I/O) → check → close</b>. Promise microtask’ları fazlar arasında çalışır. <code>async/await</code> CPU işini paralel yapmaz; sadece I/O beklemeyi verimli yönetir.</p>
+    <pre>// Event loop'u bloklar
+const hash = crypto.pbkdf2Sync(password, salt, 100000, 64, "sha512");
+
+// Event loop'u bloklamaz (I/O thread pool)
+const hash = await new Promise((resolve, reject) =>
+  crypto.pbkdf2(password, salt, 100000, 64, "sha512",
+    (err, key) => err ? reject(err) : resolve(key))
+);</pre>
+    <p>CPU-bound işler: görüntü işleme, büyük JSON parse, şifreleme, karmaşık hesaplama. Bunları <code>worker_threads</code> veya ayrı worker servisine al.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 13 · Python</span>
+    <h3>Python’da GIL nedir? Ne zaman thread, ne zaman process/async?</h3>
+    <div class="short"><b>Kısa cevap:</b> GIL, aynı anda tek Python bytecode’unun çalışmasını sağlar. I/O için thread/async, CPU-bound için multiprocessing veya native kütüphane kullanılır.</div>
+    <div class="two">
+      <div class="card"><h4>I/O-bound</h4><p>DB, HTTP, dosya: <code>asyncio</code> veya thread uygun. Bekleme sırasında başka iş yapılır.</p></div>
+      <div class="card"><h4>CPU-bound</h4><p>Görüntü işleme, ağır hesaplama: GIL nedeniyle thread’ler paralel olmaz; process veya C/native kütüphane gerekir.</p></div>
+    </div>
+    <p>FastAPI’de async endpoint içinde CPU-bound iş yapmak event loop’u bloklar. Bu işleri <code>run_in_executor</code>, ayrı worker veya Celery/queue’ya taşı.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 14 · Testing</span>
+    <h3>Mocha/Sinon ile unit test yazarken neyi mock’larsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> Dış bağımlılıkları mock’larım: HTTP, DB, queue, saat, random, provider API. Kendi iş mantığımı mock’lamam; gerçek input/output ile test ederim.</div>
+    <ul class="compact">
+      <li><b>Stub:</b> Belirli bir cevabı döndürür.</li>
+      <li><b>Spy:</b> Çağrıldı mı, kaç kez, hangi argümanla?</li>
+      <li><b>Fake:</b> Gerçekçi ama hafif implementasyon (in-memory repo).</li>
+      <li><b>Fake timer:</b> <code>setTimeout</code>/retry/backoff testleri deterministik olur.</li>
+    </ul>
+    <p>Unit test hızlı ve deterministik olmalı. DB/queue gerçekten gerekiyorsa integration test ayrı koşar. Dış API’ler için contract test veya kaydedilmiş fixture kullan.</p>
+    <div class="tip"><b>Mülakatta:</b> “Test piramidini kullanırım: çok unit, az integration, kritik akışlarda end-to-end. Mock’u dış sınırlarda tutarım; iş mantığını mock’larsam test hiçbir şey kanıtlamaz.”</div>
+  </div>
+</section>
+
+<!-- PART 4 -->
+<section class="part">
+  <div class="part-head">
+    <span class="eyebrow">Bölüm 04</span>
+    <h2>Dağıtık sistemler ve Yolda</h2>
+    <p>Event-driven tasarım, idempotency, push fan-out, rate limiting, SAP entegrasyonu ve CDK. CV’ndeki Yolda maddelerinin arkasındaki teori.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 15 · Exactly-once</span>
+    <h3>Event-driven sistemde “exactly-once” mümkün mü? Nasıl tasarlarsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> Uçtan uca exactly-once garanti etmek zordur. Pratik çözüm: <b>at-least-once teslimat + idempotent consumer</b>. Servisler arası işlemlerde saga veya outbox pattern kullanılır.</div>
+    <h4>Neden zor?</h4>
+    <p>Mesajı gönderen servis ile alan servis aynı anda başarılı olmayabilir. “Gönderdim ama ACK gelmedi” durumunda tekrar göndermek gerekir; bu da duplicate üretir. Exactly-once’ı mesajlaşma katmanında değil, <b>işlem seviyesinde</b> çözersin.</p>
+    <h4>Outbox pattern</h4>
+    <ol class="compact">
+      <li>DB transaction içinde iş kaydı + <code>outbox</code> tablosuna event yazılır.</li>
+      <li>Ayrı bir publisher outbox’u okur ve kuyruğa gönderir.</li>
+      <li>Gönderim başarılıysa outbox işaretlenir; değilse retry edilir.</li>
+      <li>Consumer idempotent olduğu için duplicate zarar vermez.</li>
+    </ol>
+    <p><b>Saga:</b> Uzun süren dağıtık işlemi adımlara böler; her adımın compensating action’ı vardır. 2PC gibi katı kilit yerine eventual consistency kabul edilir.</p>
+    <div class="tip"><b>Mülakatta:</b> “Exactly-once’ı vaat etmem. At-least-once teslimatı kabul eder, consumer’ı idempotent yapar, outbox ile DB-event tutarlılığını sağlarım. Hata durumunda DLQ ve retry devreye girer.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 16 · Push engine</span>
+    <h3>Mobile push engine’de idempotency ve fan-out’u nasıl yönetirsin?</h3>
+    <div class="short"><b>Kısa cevap:</b> Her bildirim için <code>notification_id</code> üretir, kullanıcı/cihaz bazında işlendi kaydı tutarım. Fan-out’ta aktif device token’ları çözülür; FCM/APNs’e batch gönderilir, geçersiz token’lar temizlenir.</div>
+    <h4>Akış</h4>
+    <ol class="compact">
+      <li>Event: “kullanıcıya bildirim gönder”.</li>
+      <li>Idempotency kontrolü: <code>notification_id + user_id + device_id</code>.</li>
+      <li>Aktif token’ları getir; pasif/geçersiz olanları at.</li>
+      <li>Provider’a batch gönder; 429/5xx için backoff + jitter.</li>
+      <li>Provider message ID ve delivery receipt’i kaydet.</li>
+      <li>Geçersiz token’ları devre dışı bırak.</li>
+    </ol>
+    <p><b>Fan-out</b> çok cihazlı kullanıcılarda mesaj sayısını artırır. Kuyruk ve concurrency limiti olmadan provider rate limit’ine takılırsın.</p>
+    <div class="warn"><b>Tuzak:</b> Aynı bildirimi kullanıcının iki cihazına göndermek bazen istenen davranıştır; “duplicate” tanımını ürün kararına göre yap. Idempotency anahtarını cihaz bazında mı kullanıcı bazında mı tutacağını netleştir.</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 17 · Rate limiting</span>
+    <h3>AI voice automation pipeline’da rate limiting’i nasıl yaparsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> Provider ve tenant bazında token bucket/leaky bucket uygular, istekleri kuyruğa alır, concurrency’yi sınırlar, 429’da exponential backoff + jitter ile retry ederim.</div>
+    <div class="two">
+      <div class="card"><h4>Token bucket</h4><p>Belirli hızda token eklenir; her istek bir token harcar. Anlık burst’e izin verir, sürdürülebilir hızı korur.</p></div>
+      <div class="card"><h4>Leaky bucket</h4><p>Kuyruk sabit hızda boşalır; çıkış hızı düzenlidir. Burst’ü yumuşatır.</p></div>
+    </div>
+    <ul class="compact">
+      <li><b>Per-tenant quota:</b> bir müşteri diğerlerini aç bırakmasın.</li>
+      <li><b>Global provider limit:</b> toplam çağrı sayısı.</li>
+      <li><b>Concurrency limit:</b> aynı anda kaç çağrı.</li>
+      <li><b>Backoff + jitter:</b> aynı anda retry yağmuru olmasın.</li>
+      <li><b>Circuit breaker:</b> provider sürekli 429/5xx veriyorsa bir süre çağrıyı kes.</li>
+    </ul>
+    <div class="tip"><b>Mülakatta:</b> “Rate limit’i sadece sayaç olarak düşünmem; adil dağıtım, kuyruk, concurrency ve circuit breaker birlikte tasarlanır. Ayrıca idempotency ile aynı çağrının iki kez ücretlendirilmesini engellerim.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 18 · SAP entegrasyonu</span>
+    <h3>SAP carrier onboarding entegrasyonunda güvenilirliği nasıl sağlarsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> Şema/contract doğrulaması, idempotency key, retry + backoff, DLQ, durum makinesi, audit log ve correlation ID kullanırım. Uzun süren işleri asenkron yaparım.</div>
+    <ul class="compact">
+      <li><b>Contract:</b> Alan eşleşmeleri, zorunlu alanlar, format validasyonu.</li>
+      <li><b>Idempotency:</b> aynı carrier/onboarding isteği iki kez işlenmesin.</li>
+      <li><b>Retry:</b> geçici hatalarda backoff; kalıcı hatalarda DLQ/karantina.</li>
+      <li><b>State machine:</b> <code>received → validated → mapped → sent → confirmed/failed</code>.</li>
+      <li><b>Audit:</b> kim, ne zaman, hangi payload, hangi cevap.</li>
+      <li><b>Secrets:</b> SAP kimlik bilgileri Secrets Manager’da.</li>
+    </ul>
+    <p>Entegrasyonlarda en büyük risk “yarım kalmış iş”tir. Her adımı kaydet ve tekrar çalıştırılabilir yap.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 19 · Fuel allocation</span>
+    <h3>Fuel allocation gibi parasal/ölçüsel bir işte doğruluğu nasıl garanti edersin?</h3>
+    <div class="short"><b>Kısa cevap:</b> Floating point yerine integer minor unit veya Decimal kullanır, yuvarlama kurallarını açıkça tanımlar, işlemi transaction içinde yapar ve her değişikliği audit log’a yazarım.</div>
+    <ul class="compact">
+      <li><b>Para:</b> 12.34 TL yerine 1234 kuruş gibi integer.</li>
+      <li><b>Yuvarlama:</b> hangi adımda, hangi yöne? Kural net olmalı.</li>
+      <li><b>Idempotency:</b> aynı allocation iki kez uygulanmasın.</li>
+      <li><b>Transaction:</b> bakiye + kayıt birlikte commit/rollback.</li>
+      <li><b>Reconciliation:</b> periyodik toplam kontrolü.</li>
+      <li><b>Audit:</b> önce/sonra değerleri, aktör, zaman.</li>
+    </ul>
+    <div class="callout"><b>Pratik kural:</b> “Para ve miktar” işlerinde en tehlikeli şey sessiz yuvarlama farkıdır. Kuralı yaz, test et, toplamı mutabık et.</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 20 · AWS CDK</span>
+    <h3>AWS CDK ile çok ortamlı altyapıyı nasıl kurarsın?</h3>
+    <div class="short"><b>Kısa cevap:</b> Stack’leri environment’a göre ayırır, config’i parametreleştirir, L2/L3 construct’larla tekrar kullanılabilir yapılar oluştururum. Secret’ları CDK’ya gömmem; Secrets Manager/SSM kullanırım.</div>
+    <ul class="compact">
+      <li><b>Construct:</b> Tekrar kullanılabilir altyapı parçası.</li>
+      <li><b>Stack:</b> Birlikte deploy edilen kaynak grubu.</li>
+      <li><b>Environment:</b> dev/staging/prod config ayrımı.</li>
+      <li><b>IAM:</b> Least privilege; wildcard <code>*</code> yok.</li>
+      <li><b>Diff:</b> <code>cdk diff</code> ile değişikliği deploy öncesi gör.</li>
+      <li><b>CI/CD:</b> synth, diff, approval, deploy.</li>
+      <li><b>Drift:</b> manuel değişiklikleri tespit et.</li>
+    </ul>
+    <p>CDK kodu da yazılımdır: review, test ve versiyon kontrolü ister. “Altyapıyı bir kere kurup unutmak” doğru değil.</p>
+  </div>
+</section>
+
+<!-- PART 5 -->
+<section class="part">
+  <div class="part-head">
+    <span class="eyebrow">Bölüm 05</span>
+    <h2>Last-mile ve güvenlik</h2>
+    <p>CV’ndeki son sınıf projesi ve OWASP/SSRF. Bu sorular, ürünü hem teknik hem güvenlik açısından anlatmanı sağlar.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 21 · Last-mile VRP</span>
+    <h3>Last-mile rota optimizasyonunu nasıl modellersin?</h3>
+    <div class="short"><b>Kısa cevap:</b> Depo, araçlar, menziller, kapasite, vardiya, hizmet süresi ve zaman pencereleriyle bir VRP kurarım. Mesafe/süre matrisini OSRM’den alır, OR-Tools ile çözerim.</div>
+    <h4>Model</h4>
+    <ul class="compact">
+      <li><b>Düğümler:</b> depo + teslimat noktaları.</li>
+      <li><b>Araçlar:</b> kapasite, vardiya, başlangıç/bitiş depo.</li>
+      <li><b>Kısıtlar:</b> zaman penceresi, hizmet süresi, maksimum durak.</li>
+      <li><b>Maliyet:</b> süre/mesafe veya ağırlıklı ekonomik maliyet.</li>
+      <li><b>Ceza:</b> atanmayan menzil için büyük ceza.</li>
+    </ul>
+    <p>Sonucu sadece “çalıştı” diye kabul etmem. Atanmayan menzilleri, kısıt ihlallerini, toplam süreyi ve baseline’a göre kazancı raporlarım. Benchmark için insan planı veya naif sıralama kullanırım.</p>
+    <div class="tip"><b>Mülakatta:</b> “Optimizasyonu bir kara kutu olarak sunmam. Girdi kısıtlarını, objective’i ve atanmayanların nedenini açıklarım. Sonucu gerçek veriyle baseline’a karşı ölçerim.”</div>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 22 · OWASP</span>
+    <h3>OWASP açısından bu tarz bir üründe en kritik 3 risk ne olur?</h3>
+    <div class="short"><b>Kısa cevap:</b> Broken access control (tenant izolasyonu), broken authentication (JWT/şifre) ve injection/SSRF (entegrasyon ve webhook URL’leri).</div>
+    <ul class="compact">
+      <li><b>Broken access control:</b> Kullanıcı başka kervanın menzilini/güzergâhını görmemeli. Her sorguda tenant_id kontrolü.</li>
+      <li><b>Broken auth:</b> Kısa ömürlü JWT, güçlü secret, refresh rotation, rate limit.</li>
+      <li><b>Injection/SSRF:</b> Kullanıcı URL’si ve dış veri asla doğrudan çalıştırılmamalı; validation, allowlist ve parametreli sorgular.</li>
+    </ul>
+    <p>Ayrıca: güvenli secret yönetimi, least privilege IAM, güvenli log (PII yazmama), bağımlılık güncellemeleri ve HTTPS.</p>
+  </div>
+
+  <div class="qa">
+    <span class="qnum">Soru 23 · SSRF</span>
+    <h3>Bir webhook/entegrasyon endpoint’inde SSRF’i nasıl engellersin?</h3>
+    <div class="short"><b>Kısa cevap:</b> Kullanıcının verdiği URL’yi doğrudan çağırmam. Scheme’i HTTP/HTTPS ile sınırlar, private/link-local/metadata IP’lerini bloklar, DNS rebinding’e karşı resolve edilen IP’yi kontrol ederim.</div>
+    <ul class="compact">
+      <li>Sadece <code>http</code>/<code>https</code>; <code>file://</code>, <code>ftp://</code>, <code>gopher://</code> yok.</li>
+      <li><code>127.0.0.0/8</code>, <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>, <code>169.254.0.0/16</code> (metadata) blokla.</li>
+      <li>DNS resolve ettikten sonra IP’yi tekrar kontrol et; rebinding’e karşı.</li>
+      <li>Redirect’leri sınırla; her redirect’te tekrar doğrula.</li>
+      <li>Egress proxy/allowlist kullan; response boyutu ve timeout’u sınırla.</li>
+    </ul>
+    <pre>function isPrivateIp(ip) {
+  return ip.startsWith("10.") || ip.startsWith("192.168.") ||
+         ip.startsWith("127.") || ip.startsWith("169.254.");
+}
+
+const url = new URL(userInput);
+if (!["http:", "https:"].includes(url.protocol)) throw new Error("bad scheme");
+const ip = await resolveIp(url.hostname);
+if (isPrivateIp(ip)) throw new Error("private ip blocked");</pre>
+    <div class="tip"><b>Mülakatta:</b> “SSRF’i sadece string kontrolüyle çözmem; DNS resolution, IP sınıfları, redirect ve egress katmanını birlikte düşünürüm. En güvenlisi allowlist + proxy.”</div>
+  </div>
+</section>
+
+<!-- CHEAT SHEET -->
+<section class="part">
+  <div class="part-head">
+    <span class="eyebrow">Kapanış</span>
+    <h2>Cheat sheet ve 7 günlük plan</h2>
+    <p>Son gece ezberi değil, kavramları birbirine bağlama sayfası.</p>
+  </div>
+
+  <h3>Tek cümlelik cevaplar</h3>
+  <table>
+    <tr><th>Soru</th><th>Tek cümle</th></tr>
+    <tr><td>Idempotency</td><td>Aynı işi iki kez yapmamak için iş anahtarı + koşullu yazma + TTL.</td></tr>
+    <tr><td>Cold start</td><td>Yeni Lambda ortamının init süresi; paket, init ve provisioned concurrency ile yönetilir.</td></tr>
+    <tr><td>SNS vs SQS</td><td>SNS push fan-out, SQS pull buffer; fan-out için SNS → SQS.</td></tr>
+    <tr><td>DLQ</td><td>Başarısız mesajların biriktiği yer; alarm ve redrive kaynağı.</td></tr>
+    <tr><td>Compound index</td><td>ESR: Equality → Sort → Range; explain ile doğrula.</td></tr>
+    <tr><td>N+1</td><td>1 ana sorgu + N alt sorgu; eager load/batch ile çöz.</td></tr>
+    <tr><td>GIL</td><td>Python’da CPU-bound thread paralelliğini sınırlar; process/native kullan.</td></tr>
+    <tr><td>Exactly-once</td><td>At-least-once + idempotent consumer; outbox/saga.</td></tr>
+    <tr><td>Rate limit</td><td>Token bucket + kuyruk + concurrency + backoff/jitter.</td></tr>
+    <tr><td>VRP</td><td>Depo + araç + menzil + kısıt + objective; OR-Tools.</td></tr>
+    <tr><td>SSRF</td><td>Scheme + private IP + DNS rebinding + redirect + egress allowlist.</td></tr>
+  </table>
+
+  <h3>7 günlük çalışma planı</h3>
+  <div class="two">
+    <div class="card"><h4>Gün 1–2</h4><p>AWS: Lambda, SQS, SNS, EventBridge, DLQ, idempotency. Kendi cümlelerinle 5'er kez anlat.</p></div>
+    <div class="card"><h4>Gün 3–4</h4><p>MongoDB index/aggregation + SQL index/N+1. <code>explain</code> çıktısı okumayı pratik yap.</p></div>
+    <div class="card"><h4>Gün 5</h4><p>TypeScript/Node/Python: event loop, GIL, async, test mock.</p></div>
+    <div class="card"><h4>Gün 6</h4><p>Yolda hikâyeleri: push, rate limit, SAP, fuel, CDK. Her biri için 1 problem + 1 trade-off + 1 metrik.</p></div>
+    <div class="card"><h4>Gün 7</h4><p>Last-mile VRP + OWASP/SSRF. Sonra tüm soruları sesli cevapla.</p></div>
+    <div class="card"><h4>Her gün</h4><p>Bir soruyu “problemi, çözümü, trade-off’u, doğrulaması” formatında 2 dakikada anlat.</p></div>
+  </div>
+
+  <div class="callout"><b>Son not:</b> Mülakatta her şeyi bilmen beklenmiyor. Beklenen şey: problemi anlaman, basit bir çözüm önermen, trade-off’u söylemen ve ölçümle doğrulaman. Bu notlar tam olarak bunu yapman için.</div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+api/.venv/
+api/__pycache__/
+api/**/__pycache__/
+api/*.db
+api/tests/*.db
+web/node_modules/
+web/dist/
+.env
+.DS_Store
+data/
+
+api/.pytest_cache/
+
+backups/

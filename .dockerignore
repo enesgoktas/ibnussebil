@@ -1,0 +1,9 @@
+api/.venv
+**/__pycache__
+api/*.db
+api/tests/*.db
+web/node_modules
+web/dist
+.env
+data
+.DS_Store

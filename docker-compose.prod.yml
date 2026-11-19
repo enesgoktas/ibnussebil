@@ -1,0 +1,47 @@
+services:
+  app:
+    build: .
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      DATABASE_URL: sqlite:////data/ibnussebil.db
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      ENVIRONMENT: production
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://ibnussebil.com}
+      GEOCODING_ENABLED: ${GEOCODING_ENABLED:-true}
+      ROUTE_GEOMETRY_BASE_URL: ${ROUTE_GEOMETRY_BASE_URL:-https://router.project-osrm.org}
+      OSRM_BASE_URL: ${OSRM_BASE_URL:-}
+    volumes:
+      - ./data:/data
+    expose:
+      - "8000"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
